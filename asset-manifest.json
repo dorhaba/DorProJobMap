@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/DorProJobMap/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/DorProJobMap/static/js/main.a081b7d9.chunk.js",
+    "main.js.map": "/DorProJobMap/static/js/main.a081b7d9.chunk.js.map",
+    "runtime-main.js": "/DorProJobMap/static/js/runtime-main.27b4116b.js",
+    "runtime-main.js.map": "/DorProJobMap/static/js/runtime-main.27b4116b.js.map",
+    "static/js/2.0af463e5.chunk.js": "/DorProJobMap/static/js/2.0af463e5.chunk.js",
+    "static/js/2.0af463e5.chunk.js.map": "/DorProJobMap/static/js/2.0af463e5.chunk.js.map",
+    "index.html": "/DorProJobMap/index.html",
+    "precache-manifest.66db62dbf8d4790eb1ad975e83c3c093.js": "/DorProJobMap/precache-manifest.66db62dbf8d4790eb1ad975e83c3c093.js",
+    "service-worker.js": "/DorProJobMap/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/DorProJobMap/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.0af463e5.chunk.js.LICENSE.txt": "/DorProJobMap/static/js/2.0af463e5.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.27b4116b.js",
+    "static/js/2.0af463e5.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.a081b7d9.chunk.js"
+  ]
+}
