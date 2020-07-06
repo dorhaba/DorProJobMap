@@ -10,6 +10,8 @@ interface Istate {
     progress: any[]
 }
 
+
+
 class Map extends React.Component<Iprops, Istate> {
 
     constructor(props: Readonly<Iprops>) {
@@ -22,11 +24,16 @@ class Map extends React.Component<Iprops, Istate> {
         this.moveObject = this.moveObject.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentWillUnmount = this.componentWillUnmount.bind(this);
-        this.UNSAFE_componentWillMount = this.UNSAFE_componentWillMount.bind(this);
+    }
+
+    icon = {
+        url: './car.png',
+        scaledSize: new window.google.maps.Size(20, 20),
+        anchor: { x: 10, y: 10 }
     }
 
     interval = 0
-    velocity = 5
+    velocity = 10
     initialDate: Date = new Date()
     trkpt = CarMove.default.trkpt;
 
@@ -37,7 +44,6 @@ class Map extends React.Component<Iprops, Istate> {
 
     getDistance = () => {
         const differentInTime = (new Date().getTime() - this.initialDate.getTime()) / 1000
-        // console.log("differentInTime" + new Date().getTime())
         return differentInTime * this.velocity
     }
 
@@ -80,14 +86,6 @@ class Map extends React.Component<Iprops, Istate> {
     }
 
     componentDidMount = () => {
-        this.interval = window.setInterval(this.moveObject, 1000)
-    }
-
-    componentWillUnmount = () => {
-        window.clearInterval(this.interval)
-    }
-
-    UNSAFE_componentWillMount = () => {
         const { lat: lat1, lng: lng1 } = this.trkpt[0]
         let lastPoint = new window.google.maps.LatLng(lat1, lng1)
         let latLong2 = new window.google.maps.LatLng(lat1, lng1)
@@ -113,6 +111,11 @@ class Map extends React.Component<Iprops, Istate> {
             return { ...coordinates, distance }
         })
         console.log(this.trkpt)
+        this.interval = window.setInterval(this.moveObject, 1000)
+    }
+
+    componentWillUnmount = () => {
+        window.clearInterval(this.interval)
     }
 
     render = () => {
@@ -120,7 +123,7 @@ class Map extends React.Component<Iprops, Istate> {
             <GoogleMap
                 defaultZoom={15}
                 defaultCenter={this.position} >
-                <Marker position={this.state.progress[this.state.progress.length - 1]} >
+                <Marker position={this.state.progress[this.state.progress.length - 1]}  >
                 </Marker>
                 <Polyline path={(this.state.progress)} options={{ strokeColor: "#0000FF " }} />
             </GoogleMap>
