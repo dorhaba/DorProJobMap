@@ -1,6 +1,7 @@
 import React from 'react';
 import { withGoogleMap, withScriptjs, GoogleMap, Marker, Polyline } from 'react-google-maps'
 import * as CarMove from "./simul/route3"
+import CarPic from "./image/car.png"
 
 interface Iprops {
 
@@ -27,13 +28,13 @@ class Map extends React.Component<Iprops, Istate> {
     }
 
     icon = {
-        url: './car.png',
+        url: CarPic,
         scaledSize: new window.google.maps.Size(20, 20),
-        anchor: { x: 10, y: 10 }
+        anchor: new window.google.maps.Point(10, 10)
     }
 
     interval = 0
-    velocity = 10
+    velocity = 60
     initialDate: Date = new Date()
     trkpt = CarMove.default.trkpt;
 
@@ -118,14 +119,57 @@ class Map extends React.Component<Iprops, Istate> {
         window.clearInterval(this.interval)
     }
 
+    componentDidUpdate = () => {
+        const distance = this.getDistance()
+        if (!distance) {
+            return
+        }
+
+        let progress = this.trkpt.filter(coordinates => coordinates.distance < distance)
+
+        const nextLine = this.trkpt.find(coordinates => coordinates.distance > distance)
+
+        let point1, point2
+
+        if (nextLine) {
+            point1 = progress[progress.length - 1]
+            point2 = nextLine
+        } else {
+            // it's the end, so use the latest 2
+            point1 = progress[progress.length - 2]
+            point2 = progress[progress.length - 1]
+        }
+
+        const point1LatLng = new window.google.maps.LatLng(point1.lat, point1.lng)
+        const point2LatLng = new window.google.maps.LatLng(point2.lat, point2.lng)
+
+        const angle = window.google.maps.geometry.spherical.computeHeading(point1LatLng, point2LatLng)
+        const actualAngle = angle - 90
+        console.log(angle)
+        console.log(actualAngle)
+
+        const markerUrl = CarPic
+        let marker: HTMLElement = document.querySelector(`[src="${markerUrl}"]`) as HTMLElement
+
+        if (marker) { // when it hasn't loaded, it's null
+            marker.style.transform = `rotate(${actualAngle}deg)`
+        }
+
+    }
+
     render = () => {
         return (
             <GoogleMap
                 defaultZoom={15}
                 defaultCenter={this.position} >
-                <Marker position={this.state.progress[this.state.progress.length - 1]}  >
+                <Marker position={this.state.progress[this.state.progress.length - 1]}
+                    icon={this.icon}>
                 </Marker>
-                <Polyline path={(this.state.progress)} options={{ strokeColor: "#0000FF " }} />
+                <Polyline path={(this.state.progress)}
+                    options={{
+                        strokeColor: "#0000FF ", strokeOpacity: 1,
+                        strokeWeight: 3
+                    }} />
             </GoogleMap>
         )
     }
