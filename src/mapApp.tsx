@@ -34,7 +34,7 @@ class Map extends React.Component<Iprops, Istate> {
     }
 
     interval = 0
-    velocity = 60
+    velocity = 20
     initialDate: Date = new Date()
     trkpt = CarMove.default.trkpt;
 
